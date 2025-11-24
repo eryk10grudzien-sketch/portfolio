@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IRON BARBER — męskie strzyżenie • broda • Booksy</title>
+  <meta name="description" content="Męski barber w rockowym klimacie. Strzyżenie, broda, hot towel. Zarezerwuj wizytę przez Booksy." />
+  <meta name="color-scheme" content="dark light" />
+  <style>
+    :root{
+      --bg:#0b0c0f; --panel:#111318; --muted:#9aa0aa; --text:#f3f4f6;
+      --accent:#e11d48; --accent-2:#f59e0b; --border:#1f232d;
+      --shadow:0 10px 30px rgba(0,0,0,.45); --header-h:80px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;background:var(--bg);color:var(--text);
+      font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+      scroll-behavior:smooth}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    body{padding-top:var(--header-h)}
+    section{padding:80px 0;scroll-margin-top:calc(var(--header-h) + 10px)}
+
+    /* ====== GLOBALS ====== */
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+      padding:.9rem 1.2rem;border-radius:999px;border:1px solid transparent;
+      background:var(--accent);color:#fff;font-weight:700;letter-spacing:.3px;
+      box-shadow:var(--shadow);transition:.25s}
+    .btn:hover{transform:translateY(-1px);filter:saturate(1.2)}
+    .btn.outline{background:transparent;border-color:var(--accent);color:var(--text)}
+    .tag{display:inline-block;padding:.2rem .6rem;border:1px solid var(--border);
+      border-radius:999px;color:var(--muted);font-size:.8rem;letter-spacing:.3px}
+    h1,h2,h3{line-height:1.2}
+
+    /* ====== TOP BAR (fixed) ====== */
+    .top{position:fixed;top:0;left:0;width:100%;z-index:9999;
+      background:rgba(11,12,15,.85);backdrop-filter:saturate(140%) blur(8px);
+      border-bottom:1px solid var(--border)}
+    .nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+      gap:20px;padding:14px 20px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .brand img{width:40px;height:40px;object-fit:contain;border-radius:8px}
+    .menu{display:flex;justify-content:center;gap:26px}
+    .menu a{color:#c7ccd6}
+    .menu a:hover{color:#fff}
+    .right{display:flex;align-items:center;gap:12px}
+    .burger{display:none;background:none;border:none;color:#fff;font-size:26px;line-height:1}
+
+    /* ====== HERO ====== */
+    .hero{position:relative;overflow:hidden}
+    .hero::before{content:"";position:absolute;inset:0;
+      background:radial-gradient(1200px 400px at 20% 20%,rgba(225,29,72,.18),transparent 60%),
+                 radial-gradient(900px 300px at 80% 30%,rgba(245,158,11,.12),transparent 60%)}
+    .hero-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+    .hero-visual{position:relative;min-height:420px;border-radius:24px;overflow:hidden;
+      box-shadow:var(--shadow);border:1px solid var(--border)}
+    .hero-visual::after{content:"";position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(0,0,0,.55),transparent 40%)}
+    .hero-visual .bg{position:absolute;inset:0;
+      background:url('img/bar1.jpg') center/cover no-repeat;transform:scale(1.02)}
+    .hero .section-header{padding:60px 0 40px}
+    .hero h1{font-size:clamp(32px,5vw,54px);margin:10px 0 10px;font-weight:900}
+    .sub{color:var(--muted);max-width:60ch;margin:0 auto;text-align:center}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;justify-content:center}
+    .facts{display:flex;gap:18px;margin-top:18px;color:var(--muted);font-size:.95rem;justify-content:center}
+
+    /* ====== SECTION HEADER (wyśrodkowane) ====== */
+    .section-header{text-align:center;max-width:70ch;margin:0 auto 26px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px}
+
+    /* ====== CARDS ====== */
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:linear-gradient(180deg,#0f1116,#0b0c10);border:1px solid var(--border);
+      border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+    .card h3{margin:6px 0 6px;font-size:1.25rem}
+    .card p{color:var(--muted)}
+
+    /* ====== PRICING ====== */
+    .pricing{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .price-card .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px dashed #202634}
+    .note{color:var(--muted);font-size:.9rem;margin-top:8px;text-align:center}
+
+    /* ====== GALLERY (większe zdjęcia i wyśrodkowanie) ====== */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .tile{aspect-ratio:1;border-radius:14px;overflow:hidden;border:1px solid var(--border);position:relative}
+    .tile img{width:100%;height:100%;object-fit:cover;filter:grayscale(.2) contrast(1.05);
+      transition:.35s;transform:scale(1.05)}
+    .tile:hover img{transform:scale(1.12)}
+    .tile::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;
+      background:linear-gradient(to top,rgba(0,0,0,.5),transparent)}
+
+    /* ====== TESTIMONIALS ====== */
+    .stars{color:#f59e0b}
+
+    /* ====== CONTACT ====== */
+    form{display:grid;gap:10px;max-width:520px;margin:0 auto}
+    input, textarea{background:#0d0f14;border:1px solid var(--border);color:#fff;padding:12px 14px;border-radius:12px}
+    input:focus, textarea:focus{outline:none;border-color:#2a3142;box-shadow:0 0 0 3px rgba(225,29,72,.15)}
+
+    /* ====== FOOTER ====== */
+    footer{border-top:1px solid var(--border);padding:28px 0;color:var(--muted)}
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 960px){
+      .hero-wrap{grid-template-columns:1fr}
+      .pricing{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .burger{display:block}
+      .menu{display:none}
+    }
+    @media (max-width: 720px){
+      .facts{flex-wrap:wrap}
+    }
+
+    /* klikowalność: overlaye nie łapią zdarzeń */
+    .hero::before,.hero-visual::after,.tile::after{pointer-events:none}
+  </style>
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="top" id="topbar">
+    <div class="container nav">
+      <a class="brand" href="#">
+        <!-- 🔸 PODMIEŃ LOGO TUTAJ (plik w img/) -->
+        <img src="img/logo.png" alt="Logo IRON BARBER">
+        IRON BARBER
+      </a>
+
+      <!-- Menu wyśrodkowane -->
+      <nav class="menu" aria-label="Główne" id="mainMenu">
+        <a href="#oferta">Usługi</a>
+        <a href="#cennik">Cennik</a>
+        <a href="#galeria">Galeria</a>
+        <a href="#opinie">Opinie</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+
+      <!-- Prawa kolumna -->
+      <div class="right">
+        <a class="btn" href="https://booksy.com/pl-pl/" target="_blank" rel="noreferrer">Umów przez Booksy</a>
+        <button class="burger" id="burger" aria-label="Otwórz menu">☰</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-wrap">
+      <div>
+        <div class="section-header">
+          <span class="tag">Rock • Moto • Barber</span>
+          <h1>Męskie strzyżenie, broda i klimat garażu</h1>
+          <p class="sub">Klasyka barbershopu połączona z surową stylistyką motocykli. Zero zbędnych bajerów — sama precyzja i dobry vibe.</p>
+        </div>
+        <div class="hero-cta">
+          <a class="btn" href="https://booksy.com/pl-pl/" target="_blank" rel="noreferrer">Rezerwuj w Booksy</a>
+          <a class="btn outline" href="#oferta">Zobacz ofertę</a>
+        </div>
+        <div class="facts">
+          <span>★ 4.9 / 5</span><span>•</span>
+          <span>Pon–Sob 9:00–20:00</span><span>•</span>
+          <span>ul. Żelazna 13, Twoje Miasto</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="Zdjęcie barbera">
+        <div class="bg" role="img" aria-label="Tło barbershopu"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== USŁUGI ===== -->
+  <section id="oferta">
+    <div class="container">
+      <div class="section-header">
+        <h2>Usługi</h2>
+        <p class="sub">Dobierz pakiet pod swój styl — szybkie odświeżenie albo pełen rytuał z hot towel.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <span class="tag">Włosy</span>
+          <h3>Strzyżenie klasyczne</h3>
+          <p>Konsultacja, mycie, precyzyjna stylizacja. Nożyczki + maszynka.</p>
+          <p style="text-align:center"><a class="btn" href="https://booksy.com/pl-pl/" target="_blank" rel="noreferrer">Rezerwuj</a></p>
+        </article>
+        <article class="card">
+          <span class="tag">Fade</span>
+          <h3>Skin Fade / Mid / Low</h3>
+          <p>Gładkie przejścia, kontury na żyletę. Wykończenie golarką/brzytwą.</p>
+          <p style="text-align:center"><a class="btn" href="https://booksy.com/pl-pl/" target="_blank" rel="noreferrer">Rezerwuj</a></p>
+        </article>
+        <article class="card">
+          <span class="tag">Broda</span>
+          <h3>Modelowanie brody</h3>
+          <p>Formowanie, konturowanie, balsam/olejek. Opcja: hot towel + brzytwa.</p>
+          <p style="text-align:center"><a class="btn" href="https://booksy.com/pl-pl/" target="_blank" rel="noreferrer">Rezerwuj</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CENNIK ===== -->
+  <section id="cennik">
+    <div class="container">
+      <div class="section-header">
+        <h2>Cennik</h2>
+        <p class="sub">Ceny przykładowe — podmień na własne.</p>
+      </div>
+      <div class="pricing">
+        <div class="card price-card">
+          <h3>Włosy</h3>
+          <div class="row"><span>Strzyżenie klasyczne</span><strong>70 zł</strong></div>
+          <div class="row"><span>Skin Fade</span><strong>85 zł</strong></div>
+          <div class="row"><span>Maszynką (one length)</span><strong>55 zł</strong></div>
+          <div class="row"><span>Junior (do 12 lat)</span><strong>55 zł</strong></div>
+        </div>
+        <div class="card price-card">
+          <h3>Broda & golenie</h3>
+          <div class="row"><span>Modelowanie brody</span><strong>60 zł</strong></div>
+          <div class="row"><span>Combo włosy + broda</span><strong>120 zł</strong></div>
+          <div class="row"><span>Golenie brzytwą (hot towel)</span><strong>85 zł</strong></div>
+        </div>
+      </div>
+      <p class="note">* Wystawiamy paragony/faktury. Płatność kartą i gotówką.</p>
+    </div>
+  </section>
+
+  <!-- ===== GALERIA ===== -->
+  <section id="galeria" aria-label="Galeria">
+    <div class="container">
+      <div class="section-header">
+        <h2>Galeria</h2>
+        <p class="sub">Kawałki roboty prosto z fotela.</p>
+      </div>
+      <div class="gallery">
+        <!-- Zdjęcia z folderu img/ — dopisuj kolejne wiersze według wzoru -->
+        <figure class="tile"><img src="img/fade1.jpg" alt="Fade 1" /></figure>
+        <figure class="tile"><img src="img/fade2.jpg" alt="Fade 2" /></figure>
+		<figure class="tile"><img src="img/fade3.jpg" alt="Fade 1" /></figure>
+        <figure class="tile"><img src="img/fade4.jpg" alt="Fade 2" /></figure>
+		<figure class="tile"><img src="img/fade5.jpg" alt="Fade 1" /></figure>
+        <figure class="tile"><img src="img/fade6.jpg" alt="Fade 2" /></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== OPINIE ===== -->
+  <section id="opinie">
+    <div class="container">
+      <div class="section-header">
+        <h2>Opinie</h2>
+        <p class="sub">Lepiej, żeby mówili klienci:</p>
+      </div>
+      <div class="grid-3">
+        <div class="card"><div class="stars">★★★★★</div><p>„Najlepszy fade w mieście. Bez gadania.”</p><p>— Michał</p></div>
+        <div class="card"><div class="stars">★★★★★</div><p>„Broda ogarnięta jak trzeba. Klimat motoryzacyjny na plus.”</p><p>— Kamil</p></div>
+        <div class="card"><div class="stars">★★★★★</div><p>„Dobra muzyka, szybka robota, zero kompromisów.”</p><p>— Tomek</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== KONTAKT ===== -->
+  <section id="kontakt">
+    <div class="container">
+      <div class="section-header">
+        <h2>Kontakt & lokalizacja</h2>
+        <p class="sub">Masz pytania? Napisz lub po prostu zarezerwuj termin w Booksy.</p>
+      </div>
+      <div class="grid-3" style="grid-template-columns:1.2fr .8fr;gap:30px">
+        <div>
+          <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+            <div><strong>Telefon</strong><br><a href="tel:+48600000000">+48 600 000 000</a></div>
+            <div><strong>Adres</strong><br>ul. Żelazna 13, Twoje Miasto</div>
+          </div>
+          <form onsubmit="event.preventDefault();alert('Dzięki! Odezwiemy się.');" style="margin-top:16px">
+            <input required placeholder="Imię" />
+            <input type="email" required placeholder="Email" />
+            <input placeholder="Telefon (opcjonalnie)" />
+            <textarea rows="4" placeholder="Wiadomość"></textarea>
+            <div style="text-align:center"><button class="btn" type="submit">Wyślij</button></div>
+            <p class="note">Wysyłając formularz, akceptujesz politykę prywatności.</p>
+          </form>
+        </div>
+        <aside>
+          <div class="card" style="padding:0;overflow:hidden">
+            <iframe title="Mapa dojazdu" style="border:0;width:100%;height:340px" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2443.165260908461!2d21.012228!3d52.229676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDEzJzQ2LjgiTiAyMcKwMDAnNDQuMCJF!5e0!3m2!1spl!2spl!4v1689270000000"></iframe>
+          </div>
+          <div class="note" style="margin-top:10px">Wejście od podwórza. Parking dla motocykli przed lokalem.</div>
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+            <a class="btn" href="https://booksy.com/pl-pl/" target="_blank" rel="noreferrer">Umów przez Booksy</a>
+            <a class="btn outline" href="#">Instagram</a>
+            <a class="btn outline" href="#">Facebook</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <p>© <span id="year"></span> IRON BARBER. Wszelkie prawa zastrzeżone.</p>
+      <p>Niektóre zdjęcia pochodzą z serwisu Pinterest — wyłącznie w celach poglądowych.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Rok w stopce
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Burger (mobile)
+    const burger = document.getElementById('burger');
+    burger?.addEventListener('click', () => {
+      const menu = document.getElementById('mainMenu');
+      const visible = getComputedStyle(menu).display !== 'none';
+      menu.style.display = visible ? 'none' : 'flex';
+      menu.style.flexDirection = 'column';
+      menu.style.gap = '14px';
+      menu.style.padding = '10px 0';
+      menu.style.borderTop = '1px solid var(--border)';
+    });
+  </script>
+</body>
+</html>
